@@ -1,0 +1,57 @@
+  /* General body styling */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e2dada;
+
+}
+
+/* Title styling */
+h1 {
+    color: #333;
+}
+
+/* Status display styling */
+#status {
+    font-size: 15px;
+    margin-bottom: 15px;
+    color: #555; /* Medium grey color */
+}
+
+/* Styles for the game board */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px); /* 3 columns of equal width */
+    grid-template-rows: repeat(3, 100px);    /* 3 rows of equal height */
+    gap: 5px;  /* Space between cells */
+}
+
+/* Individual cell styles */
+.cell {
+    width: 100px;  /* Fixed width for each cell */
+    height: 100px; /* Fixed height for each cell */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em; /* Larger font for X and O */
+    border: 2px solid #333; /* Dark border for cells */
+    background-color: #e0e0e0; /* Light grey background for cells */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Reset button styling */
+#reset {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 10px;
+    cursor: pointer; /* Pointer cursor on hover */
+    border: none;
+    background-color: #333; /* Dark background for button */
+    color: #fff; /* White text color */
+    border-radius: 5px; /* Rounded corners */
+}
