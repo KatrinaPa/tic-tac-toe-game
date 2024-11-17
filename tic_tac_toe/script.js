@@ -1,3 +1,18 @@
+// Defining winning combinations
+const winCombinations = [
+  // Rows
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  // Columns
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  // Diagonals
+  [0, 4, 8],
+  [2, 4, 6]
+];
+
 let board = [
     ['', '', ''],//index: 0,1,2
     ['', '', ''],//index: 3,4,5
@@ -31,6 +46,7 @@ function handleClickCell(event) {
         // Check for win or draw here
         if (checkForWin()) {
             statusDisplay.textContent = `Player ${currentPlayer} wins!`;
+            highlightWinningCells(); // Highlight the winning cells
             gameOver = true;  // Set game over flag
             return;
         } else if (checkForDraw()) {
@@ -47,27 +63,12 @@ function handleClickCell(event) {
 
 // Function to check for a WIN
 function checkForWin() {
-    // Defining winning combinations
-    const winCombinations = [
-        // Rows
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        // Columns
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        // Diagonals
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
+  // Flatten board for easier access to win combinations
+  const flatBoard = board.flat();//It will produce a 1D array: ['', '', '', '', '', '', '', '', '']. 
+  //Example: Index 3 in flatBoard corresponds to the cell at position (1, 0) in the 2D array (middle-left).
+  //Example: first row of the original 2D array ['', '', ''] -> flatBoard[0], flatBoard[1], flatBoard[2]
 
-    // Flatten board for easier access to win combinations
-    const flatBoard = board.flat();//It will produce a 1D array: ['', '', '', '', '', '', '', '', '']. 
-    //Example: Index 3 in flatBoard corresponds to the cell at position (1, 0) in the 2D array (middle-left).
-    //Example: first row of the original 2D array ['', '', ''] -> flatBoard[0], flatBoard[1], flatBoard[2]
-
-    // Check each win combination
+  // Check each win combination
   return winCombinations.some(combination => {
     const [a, b, c] = combination;
     return (
@@ -83,17 +84,37 @@ function checkForDraw() {
     return board.flat().every(cell => cell !== '');
   }
   
-  // Function to reset the game
-  function resetGame() {
-    board = [
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', '']
-    ];
-    currentPlayer = 'X';
-    cells.forEach(cell => (cell.textContent = ''));
-    statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
+// Function to reset the game
+function resetGame() {
+  board = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+  ];
+  currentPlayer = 'X';
+  cells.forEach(cell => {
+    cell.textContent = '';
+    cell.style.backgroundColor = '';
+    cell.style.color = '';
+  });
+  statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
+  gameOver = false;  // Reset game over flag
   }
+
+  // Function to highlight the winning cells
+function highlightWinningCells() {
+  const flatBoard = board.flat();
+  winCombinations.forEach(combination => {
+      const [a, b, c] = combination;
+        if (flatBoard[a] === flatBoard[b] && flatBoard[a] === flatBoard[c] && flatBoard[a] !== '') {
+          combination.forEach(index => {
+            const cell = document.querySelectorAll('.cell')[index];
+            cell.style.backgroundColor = '#F9D459';
+            cell.style.color = '#F34954'; 
+          });
+      }
+  });
+}
   
   // Event listeners for cells and reset button
   cells.forEach(cell => cell.addEventListener('click', handleClickCell));
