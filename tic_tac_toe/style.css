@@ -10,55 +10,185 @@ body {
     background-color: #FFD2DA;
 }
 
-/* Title styling */
-h1 {
-    color: #333;
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-/* Status display styling */
-#status {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-    color: #555;
-    font-weight: bold;
-    text-align: center;
-}
-
 .container {
     background-color: #FDECEF;
     border-radius: 40px;
     padding: 40px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Title styling */
+h1 {
+    color: #333;
+    font-size: 0.8em;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+h1 span {
+    font-weight: normal;
+}
+
+.n-round {
+    width: 135px;
+    height: 135px;
+    background-color: #F9D459;
+    border-radius: 50%;
+    outline: 12px solid white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#round-label,
+#round-number {
+    margin: 0;
+    font-size: 1em;
+    color: #333 ;
+    font-weight: bold;
+}
+
+#round-number {
+    font-size: 1.2em;
+    color: #333 ;
+    border-radius: 25px;
+    background-color: white;
+    width: 40%;
+    text-align: center;
+    margin: 4px 0 15px 0;
+    padding: 2px;
+}
+
+#status {
+    font-size: 1.2em;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 10px;
+    margin: 0;
+}
+
+#game-status {
+    font-size: 1.2em;
+    color: white;
+}
+
+.players_board-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.player-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Styles for the game board */
+.player-box {
+    background-color: white;
+    border-radius: 55px;
+    outline: 1px solid #F34954;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.player-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.show-player {
+    padding-top: 8px;
+    border-radius: 25px;
+    background-color: #F34954;
+    width: 50%;
+    margin-bottom: 30px;
+}
+
+.player-circle1,
+.player-circle2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 116px;
+    height: 116px;
+    background-color: white;
+    border-radius: 50%;
+    outline: 1px solid #F34954;
+    position: relative;
+    top: 55px;
+    box-shadow: 0 4px 8px 0 rgb(209 13 13 / 35%);
+}
+
+.player-circle1 span,
+.player-circle2 span {
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background-color: #C3BFEB;
+}
+
+.player-circle2 span {
+    background-color: #8CC7AA;
+}
+
+.win-rounds {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0 10px 0;
+    border-radius: 25px;
+    outline: 3px solid #F9D459;
+    color: #F9D459;
+    width: 100%;
+    margin-top: 25px;
+}
+
+/* Board wrapper and grid */
+.board-wrapper {
+    padding: 25px;
+    margin: 30px;
+    background-color: white;
+    border-radius: 45px;
+    border: 3px dashed #F34954;
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
     grid-template-rows: repeat(3, 1fr); /* 3 rows of equal height */
     width: 450px;
     height: 450px;
-    gap: 0;
-    position: relative;
-    border: 25px solid white; 
-    border-radius: 40px;
-    outline: 2px dashed #F34954;
+    background-color: #F34954;
+    border-radius: 25px;
+}
+
+/* Ensure wrapper fits into one row of the grid */
+.cell345-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for the cells inside */
+    grid-column: span 3; /* Span the entire width of the board */
 }
 
 /* Individual cell styles */
 .cell {
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 4em;
     color: #F9D459; /* Default text color */
-    background-color: #F34954;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s; /* Smooth transition for color changes */
     position: relative; /* This enables z-index to work */
@@ -68,17 +198,29 @@ h1 {
 .cell[data-cell="1"],
 .cell[data-cell="4"],
 .cell[data-cell="7"] {
-    border-right: 2px dashed white;
-    border-left: 2px dashed white;
+    border-right: 3px dashed;
+    border-left: 3px dashed;
+    border-image: repeating-linear-gradient(
+        to top,
+        white 0,
+        white 15px,
+        transparent 15px,
+        transparent 30px
+    ) 1;
     z-index: 1; 
 }
 
 /* Horizontal dashed lines between cells in the middle row */
-.cell[data-cell="3"],
-.cell[data-cell="4"],
-.cell[data-cell="5"] {
-    border-bottom: 2px dashed white;
-    border-top: 2px dashed white;
+.cell345-wrapper {
+    border-bottom: 3px dashed;
+    border-top: 3px dashed;
+    border-image: repeating-linear-gradient(
+        to right,
+        white 0,
+        white 15px,
+        transparent 15px,
+        transparent 30px
+    ) 1;
     z-index: 1;
 }
 
@@ -99,14 +241,54 @@ h1 {
     border-bottom-right-radius: 20px; /* Round bottom-right corner */
 }
 
-/* Ensure that borders in the center row/column aren't overlapping */
-.cell[data-cell="4"] {
-    z-index: 2; /* Center cell needs a higher stacking context */
+.circle {
+    height: 65px;
+    width: 65px;
+    border-radius: 50%;
+    border: 16px solid #F9D459;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* Reset button styling */
+.cross {
+    height: 70px;
+    width: 70px;
+    position: relative;
+    transform: rotate(45deg);
+    border-color: #F34954;
+}
+
+.cross:before, .cross:after {
+    content: ""; 
+    position: absolute;
+    background-color: #F9D459;
+    border-radius: 35px;
+}
+.cross:before {
+    left: 50%;
+    width: 30%;
+    height: 100%;
+    margin-left: -15%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.cross:after {
+    top: 50%;
+    height: 30%;
+    width: 100%;
+    margin-top: -15%;
+}
+.cross.winning:before, .cross.winning:after {
+    background-color: #F34954 !important;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+}
+
 #reset {
-    margin-top: 50px;
+    margin-top: 20px;
     padding: 20px 40px;
     font-size: 1em;
     font-weight: bold;
